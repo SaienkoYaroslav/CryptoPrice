@@ -1,13 +1,13 @@
-package ua.com.app.saienko.yaroslav.cryptoprice
+package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 
 // ctrl + alt + o   - Видалити імпорти, які не використовуються
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import ua.com.app.saienko.yaroslav.cryptoprice.adapters.CoinInfoAdapter
+import ua.com.app.saienko.yaroslav.cryptoprice.presentation.adapters.CoinInfoAdapter
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ActivityCoinPriceListBinding
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinPriceInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
 
 class CoinPriceListActivity : AppCompatActivity() {
 

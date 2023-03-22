@@ -1,4 +1,4 @@
-package ua.com.app.saienko.yaroslav.cryptoprice.api
+package ua.com.app.saienko.yaroslav.cryptoprice.data.network
 
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

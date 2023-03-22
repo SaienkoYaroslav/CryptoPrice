@@ -1,11 +1,11 @@
-package ua.com.app.saienko.yaroslav.cryptoprice.database
+package ua.com.app.saienko.yaroslav.cryptoprice.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinPriceInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
 
 @Dao
 interface CoinPriceInfoDao {

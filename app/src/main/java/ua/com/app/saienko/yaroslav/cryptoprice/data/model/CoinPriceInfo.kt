@@ -1,11 +1,11 @@
-package ua.com.app.saienko.yaroslav.cryptoprice.pojo
+package ua.com.app.saienko.yaroslav.cryptoprice.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
-import ua.com.app.saienko.yaroslav.cryptoprice.api.ApiFactory.BASE_IMAGE_URL
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory.BASE_IMAGE_URL
 import ua.com.app.saienko.yaroslav.cryptoprice.utils.convertTimestampToTime
 
 @Entity(tableName = "full_price_list")
