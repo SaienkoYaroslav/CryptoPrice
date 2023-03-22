@@ -1,10 +1,10 @@
-package ua.com.app.saienko.yaroslav.cryptoprice.api
+package ua.com.app.saienko.yaroslav.cryptoprice.data.network
 
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinInfoListOfData
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinPriceInfoRawData
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinInfoListOfData
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfoRawData
 
 interface ApiService {
 

@@ -1,4 +1,4 @@
-package ua.com.app.saienko.yaroslav.cryptoprice
+package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 
 import android.content.Context
 import android.content.Intent

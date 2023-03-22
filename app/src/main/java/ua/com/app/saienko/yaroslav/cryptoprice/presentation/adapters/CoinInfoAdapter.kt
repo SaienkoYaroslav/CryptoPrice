@@ -1,4 +1,4 @@
-package ua.com.app.saienko.yaroslav.cryptoprice.adapters
+package ua.com.app.saienko.yaroslav.cryptoprice.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ua.com.app.saienko.yaroslav.cryptoprice.R
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ItemCoinInfoBinding
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinPriceInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
 import java.text.DecimalFormat
 
 class CoinInfoAdapter(private val context: Context) :

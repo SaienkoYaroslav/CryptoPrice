@@ -1,10 +1,10 @@
-package ua.com.app.saienko.yaroslav.cryptoprice.database
+package ua.com.app.saienko.yaroslav.cryptoprice.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinPriceInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
 
 // Сінглтон не можна зробити через обджект, так як базу створюємо не ми
 @Database(entities = [CoinPriceInfo::class], version = 1, exportSchema = false)

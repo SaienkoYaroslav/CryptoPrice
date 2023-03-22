@@ -1,4 +1,4 @@
-package ua.com.app.saienko.yaroslav.cryptoprice
+package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 
 import android.app.Application
 import android.util.Log
@@ -7,10 +7,10 @@ import androidx.lifecycle.LiveData
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import ua.com.app.saienko.yaroslav.cryptoprice.api.ApiFactory
-import ua.com.app.saienko.yaroslav.cryptoprice.database.AppDatabase
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinPriceInfo
-import ua.com.app.saienko.yaroslav.cryptoprice.pojo.CoinPriceInfoRawData
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory
+import ua.com.app.saienko.yaroslav.cryptoprice.data.database.AppDatabase
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfoRawData
 import java.util.concurrent.TimeUnit
 
 // AndroidViewModel параметром потрібно передати Application
