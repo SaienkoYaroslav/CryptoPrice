@@ -19,5 +19,5 @@ interface CoinInfoDao {
 
     // метод для збереження отриманих даних з інтернету в базу
     @Insert(onConflict = OnConflictStrategy.REPLACE) // кожного разу коли приходять нові дані, старі - заміняються
-    fun insertPriceList(priceList: List<CoinInfoDbModel>)
+    suspend fun insertPriceList(priceList: List<CoinInfoDbModel>)
 }

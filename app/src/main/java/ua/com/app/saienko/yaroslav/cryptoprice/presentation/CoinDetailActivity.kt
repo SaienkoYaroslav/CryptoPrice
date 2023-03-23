@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory.BASE_IMAGE_URL
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ActivityCoinDetailBinding
+import ua.com.app.saienko.yaroslav.cryptoprice.utils.convertTimestampToTime
 import java.text.DecimalFormat
 
 class CoinDetailActivity : AppCompatActivity() {
@@ -34,10 +36,10 @@ class CoinDetailActivity : AppCompatActivity() {
             return
         }
 
-        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL)
+        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
         val formattedDouble = DecimalFormat("#0.000000000")
 
-        viewModel.getDetailInfo(fromSymbol!!).observe(this, Observer {
+        viewModel.getDetailInfo(fromSymbol).observe(this) {
             binding.tvPrice.text =
                 if (it.price?.compareTo(0.1) == -1) formattedDouble.format(it.price) else it.price.toString()
             binding.tvMinPrice.text =
@@ -45,15 +47,16 @@ class CoinDetailActivity : AppCompatActivity() {
             binding.tvMaxPrice.text =
                 if (it.highDay?.compareTo(0.1) == -1) formattedDouble.format(it.highDay) else it.highDay.toString()
             binding.tvLastDeal.text = it.lastMarket
-            binding.tvUpdated.text = it.getFormattedTime()
+            binding.tvUpdated.text = convertTimestampToTime(it.lastUpdate)
             binding.tvFromSymbol.text = it.fromSymbol
             binding.tvToSymbol.text = it.toSymbol
-            Picasso.get().load(it.getFullImageUrl()).into(binding.ivLogoCoin)
-        })
+            Picasso.get().load(BASE_IMAGE_URL + it.imageUrl).into(binding.ivLogoCoin)
+        }
     }
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fSym"
+        private const val EMPTY_SYMBOL = ""
 
         // вказуємо які нам потрібні параметри і контекст (звідки буде запускатись інтент)
         fun newIntent(context: Context, fromSymbol: String): Intent {

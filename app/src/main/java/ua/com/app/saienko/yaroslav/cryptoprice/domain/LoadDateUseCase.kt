@@ -4,5 +4,5 @@ class LoadDateUseCase(
     private val repository: CoinRepository
     ) {
 
-    operator fun invoke() = repository.loadDate()
+    suspend operator fun invoke() = repository.loadDate()
 }
