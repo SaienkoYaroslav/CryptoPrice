@@ -3,28 +3,28 @@ package ua.com.app.saienko.yaroslav.cryptoprice.data.network
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinInfoListOfData
-import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfoRawData
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinNamesListDto
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinInfoJsonContainerDto
 
 interface ApiService {
 
     // ендпоінт
     @GET("top/totalvolfull")
     // отримати список популярних валют
-    fun getTopCoinsInfo(
+    suspend fun getTopCoinsInfo(
         @Query(QUERY_PARAM_API_KEY) apiKey: String = "",
         @Query(QUERY_PARAM_LIMIT) limit: Int = 10,
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-    ): Single<CoinInfoListOfData>
+    ): CoinNamesListDto
 
     // ендпоінт
     @GET("pricemultifull")
     // отримати повну інформацію
-    fun getFullPriceList(
+    suspend fun getFullPriceList(
         @Query(QUERY_PARAM_API_KEY) apiKey: String = "",
         @Query(QUERY_PARAM_FROM_SYMBOL) fSyms: String,
         @Query(QUERY_PARAM_TO_SYMBOLS) tSyms: String = CURRENCY
-    ): Single<CoinPriceInfoRawData>
+    ): CoinInfoJsonContainerDto
 
     // константи
     companion object {

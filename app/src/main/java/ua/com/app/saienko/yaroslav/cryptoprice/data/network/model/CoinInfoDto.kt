@@ -1,4 +1,4 @@
-package ua.com.app.saienko.yaroslav.cryptoprice.data.model
+package ua.com.app.saienko.yaroslav.cryptoprice.data.network.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,7 +9,7 @@ import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory.BASE_IMAG
 import ua.com.app.saienko.yaroslav.cryptoprice.utils.convertTimestampToTime
 
 @Entity(tableName = "full_price_list")
-data class CoinPriceInfo(
+data class CoinInfoDto(
     @SerializedName("TYPE")
     @Expose
     val type: String? = null,

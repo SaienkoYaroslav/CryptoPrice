@@ -9,8 +9,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory
 import ua.com.app.saienko.yaroslav.cryptoprice.data.database.AppDatabase
-import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
-import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfoRawData
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinInfoDto
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinInfoJsonContainerDto
 import java.util.concurrent.TimeUnit
 
 // AndroidViewModel параметром потрібно передати Application
@@ -26,7 +26,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     val priceList = db.coinPriceInfoDao().getPriceList()
 
     // метод, який повертає інформацію про одну валюту
-    fun getDetailInfo(fSym: String): LiveData<CoinPriceInfo> {
+    fun getDetailInfo(fSym: String): LiveData<CoinInfoDto> {
         return db.coinPriceInfoDao().getPriceInfoAboutCoin(fSym)
     }
 
@@ -42,7 +42,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
         val disposable =
             ApiFactory.apiService.getTopCoinsInfo(limit = 50)
                 .map {
-                    it.data?.map { it.coinInfo?.name }?.joinToString(",")// Отримані дані перетворюються в одну строку
+                    it.names?.map { it.coinName?.name }?.joinToString(",")// Отримані дані перетворюються в одну строку
                 }
                 .flatMap {
                     ApiFactory.apiService.getFullPriceList(fSyms = it)// Отримана строка передається всередину блока, як it і по ній отримуємо повний прайс лист
@@ -62,11 +62,11 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // метод який перетворює об'єкт it з .subscribe({ it: CoinPriceInfoRawData! в ліст CoinPriceInfo
-    private fun getPriceListFromRawData(coinPriceInfoRawData: CoinPriceInfoRawData): List<CoinPriceInfo> {
+    private fun getPriceListFromRawData(coinInfoJsonContainerDto: CoinInfoJsonContainerDto): List<CoinInfoDto> {
         // На вхід приходить coinPriceInfoRawData: CoinPriceInfoRawData в якому є json об'єкт, який потрібно
         // розпарсити вручну
-        val result = ArrayList<CoinPriceInfo>()
-        val jsonObject = coinPriceInfoRawData.coinPriceInfoJsonObject ?: return result
+        val result = ArrayList<CoinInfoDto>()
+        val jsonObject = coinInfoJsonContainerDto.json ?: return result
         // отримуємо всі ключі
         val coinKeySet = jsonObject.keySet()
         // проходимось по всіх ключам і отримуємо вкладені json-об'єкти
@@ -76,7 +76,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
             for (currencyKey in currencyKeySet) {
                 val priceInfo = Gson().fromJson(
                     currencyJson.getAsJsonObject(currencyKey),
-                    CoinPriceInfo::class.java
+                    CoinInfoDto::class.java
                 )
                 // додаємо отриманий об'єкт в колекцію
                 result.add(priceInfo)

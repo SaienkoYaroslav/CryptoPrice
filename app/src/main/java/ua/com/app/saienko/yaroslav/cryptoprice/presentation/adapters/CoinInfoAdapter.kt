@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ua.com.app.saienko.yaroslav.cryptoprice.R
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ItemCoinInfoBinding
-import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinInfoDto
 import java.text.DecimalFormat
 
 class CoinInfoAdapter(private val context: Context) :
     RecyclerView.Adapter<CoinInfoAdapter.ViewHolder>() {
 
-    var coinInfoList: List<CoinPriceInfo> = listOf()
+    var coinInfoList: List<CoinInfoDto> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -51,6 +51,6 @@ class CoinInfoAdapter(private val context: Context) :
     override fun getItemCount() = coinInfoList.size
 
     interface OnCoinClickListener {
-        fun onCoinClick(coinPriceInfo: CoinPriceInfo)
+        fun onCoinClick(coinPriceInfo: CoinInfoDto)
     }
 }
