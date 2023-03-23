@@ -3,11 +3,10 @@ package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 // ctrl + alt + o   - Видалити імпорти, які не використовуються
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import ua.com.app.saienko.yaroslav.cryptoprice.presentation.adapters.CoinInfoAdapter
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ActivityCoinPriceListBinding
-import ua.com.app.saienko.yaroslav.cryptoprice.data.model.CoinPriceInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
+import ua.com.app.saienko.yaroslav.cryptoprice.presentation.adapters.CoinInfoAdapter
 
 class CoinPriceListActivity : AppCompatActivity() {
 
@@ -22,7 +21,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         setContentView(view)
         val adapter = CoinInfoAdapter(this)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
-            override fun onCoinClick(coinPriceInfo: CoinPriceInfo) {
+            override fun onCoinClick(coinPriceInfo: CoinInfo) {
                 // замість цього використаємо метод newIntent з CoinDetailActivity
 //                val intent = Intent(this@CoinPriceListActivity, CoinDetailActivity::class.java)
 //                intent.putExtra(CoinDetailActivity.EXTRA_FROM_SYMBOL, coinPriceInfo.fromSymbol)
@@ -39,9 +38,9 @@ class CoinPriceListActivity : AppCompatActivity() {
             this,
             ViewModelProvider.AndroidViewModelFactory(application)
         )[CoinViewModel::class.java]
-        viewModel.priceList.observe(this, Observer {
+        viewModel.coinInfoList.observe(this) {
             adapter.coinInfoList = it
-        })
+        }
 
     }
 }
