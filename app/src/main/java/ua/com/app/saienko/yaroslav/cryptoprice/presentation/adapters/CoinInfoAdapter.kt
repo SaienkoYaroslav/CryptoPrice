@@ -11,7 +11,7 @@ import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
 import java.text.DecimalFormat
 
 class CoinInfoAdapter(private val context: Context) :
-    RecyclerView.Adapter<CoinInfoAdapter.ViewHolder>() {
+    RecyclerView.Adapter<CoinInfoViewHolder>() {
 
     var coinInfoList: List<CoinInfo> = listOf()
         set(value) {
@@ -21,26 +21,23 @@ class CoinInfoAdapter(private val context: Context) :
 
     var onCoinClickListener: OnCoinClickListener? = null
 
-    inner class ViewHolder(val binding: ItemCoinInfoBinding) : RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinInfoViewHolder {
         val binding = ItemCoinInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return ViewHolder(binding)
+        return CoinInfoViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = coinInfoList[position]
-        val formattedDouble = DecimalFormat("#0.00000000")
-        with(holder) {
+        with(holder.binding) {
             with(coin) {
                 val symbolsTemplate = context.resources.getString(R.string.symbols_template)
                 val lastUpdateTemplate = context.resources.getString(R.string.last_update_template)
-                binding.tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
-                binding.tvPrice.text = price
-                binding.tvTime.text = String.format(lastUpdateTemplate, lastUpdate)
-                Picasso.get().load(imageUrl).into(binding.ivLogoCoin)
-                itemView.setOnClickListener {
+                tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
+                tvPrice.text = price
+                tvTime.text = String.format(lastUpdateTemplate, lastUpdate)
+                Picasso.get().load(imageUrl).into(ivLogoCoin)
+                root.setOnClickListener {
                     onCoinClickListener?.onCoinClick(this)
                 }
             }
