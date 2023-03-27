@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 data class CoinInfoDbModel(
     @PrimaryKey
     val fromSymbol: String,
-    val toSymbol: String? = null,
-    val price: Double? = null,
-    val lastUpdate: Long? = null,
-    val highDay: Double? = null,
-    val lowDay: Double? = null,
-    val lastMarket: String? = null,
+    val toSymbol: String?,
+    val price: String?,
+    val lastUpdate: Long?,
+    val highDay: String?,
+    val lowDay: String?,
+    val lastMarket: String?,
     val imageUrl: String
 )

@@ -37,12 +37,9 @@ class CoinDetailActivity : AppCompatActivity() {
         val formattedDouble = DecimalFormat("#0.000000000")
 
         viewModel.getDetailInfo(fromSymbol).observe(this) {
-            binding.tvPrice.text =
-                if (it.price?.compareTo(0.1) == -1) formattedDouble.format(it.price) else it.price.toString()
-            binding.tvMinPrice.text =
-                if (it.lowDay?.compareTo(0.1) == -1) formattedDouble.format(it.lowDay) else it.lowDay.toString()
-            binding.tvMaxPrice.text =
-                if (it.highDay?.compareTo(0.1) == -1) formattedDouble.format(it.highDay) else it.highDay.toString()
+            binding.tvPrice.text = it.price
+            binding.tvMinPrice.text = it.lowDay
+            binding.tvMaxPrice.text = it.highDay
             binding.tvLastDeal.text = it.lastMarket
             binding.tvUpdated.text = it.lastUpdate
             binding.tvFromSymbol.text = it.fromSymbol

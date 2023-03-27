@@ -37,7 +37,7 @@ class CoinInfoAdapter(private val context: Context) :
                 val symbolsTemplate = context.resources.getString(R.string.symbols_template)
                 val lastUpdateTemplate = context.resources.getString(R.string.last_update_template)
                 binding.tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
-                binding.tvPrice.text = if (price?.compareTo(0.1) == -1) formattedDouble.format(price) else price.toString()
+                binding.tvPrice.text = price
                 binding.tvTime.text = String.format(lastUpdateTemplate, lastUpdate)
                 Picasso.get().load(imageUrl).into(binding.ivLogoCoin)
                 itemView.setOnClickListener {
