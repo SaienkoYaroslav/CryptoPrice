@@ -4,12 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
-import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory.BASE_IMAGE_URL
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ActivityCoinDetailBinding
-import ua.com.app.saienko.yaroslav.cryptoprice.utils.convertTimestampToTime
 import java.text.DecimalFormat
 
 class CoinDetailActivity : AppCompatActivity() {
@@ -47,10 +44,10 @@ class CoinDetailActivity : AppCompatActivity() {
             binding.tvMaxPrice.text =
                 if (it.highDay?.compareTo(0.1) == -1) formattedDouble.format(it.highDay) else it.highDay.toString()
             binding.tvLastDeal.text = it.lastMarket
-            binding.tvUpdated.text = convertTimestampToTime(it.lastUpdate)
+            binding.tvUpdated.text = it.lastUpdate
             binding.tvFromSymbol.text = it.fromSymbol
             binding.tvToSymbol.text = it.toSymbol
-            Picasso.get().load(BASE_IMAGE_URL + it.imageUrl).into(binding.ivLogoCoin)
+            Picasso.get().load(it.imageUrl).into(binding.ivLogoCoin)
         }
     }
 

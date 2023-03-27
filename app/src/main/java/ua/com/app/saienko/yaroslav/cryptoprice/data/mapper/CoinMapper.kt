@@ -6,6 +6,10 @@ import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinInfoDto
 import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinInfoJsonContainerDto
 import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinNamesListDto
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
+import java.sql.Date
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CoinMapper {
 
@@ -17,7 +21,7 @@ class CoinMapper {
         highDay = coinInfoDto.highDay,
         lowDay = coinInfoDto.lowDay,
         lastMarket = coinInfoDto.lastMarket,
-        imageUrl = coinInfoDto.imageUrl
+        imageUrl = BASE_IMAGE_URL + coinInfoDto.imageUrl
     )
 
     fun mapJsonContainerDtoToListCoinInfo(jsonContainerDto: CoinInfoJsonContainerDto): List<CoinInfoDto> {
@@ -52,12 +56,30 @@ class CoinMapper {
         fromSymbol = dbModel.fromSymbol,
         toSymbol = dbModel.toSymbol,
         price = dbModel.price,
-        lastUpdate = dbModel.lastUpdate,
+        lastUpdate = convertTimestampToTime(dbModel.lastUpdate),
         highDay = dbModel.highDay,
         lowDay = dbModel.lowDay,
         lastMarket = dbModel.lastMarket,
         imageUrl = dbModel.imageUrl
     )
+
+    private fun convertTimestampToTime(timestamp: Long?): String {
+        if (timestamp == null) return ""
+        // в нашому випадку приходять секунди, а метод працює з мілісек, то множимо на 1000
+        val stamp = Timestamp(timestamp * 1000)
+        val date = Date(stamp.time)
+        // паттерн з годинами, хв і сек.
+        val pattern = "HH:mm:ss"
+        // час по Грінвічу
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        // час в нашій зоні
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(date)
+    }
+
+    companion object {
+        const val BASE_IMAGE_URL = "https://cryptocompare.com"
+    }
 
 
 }
