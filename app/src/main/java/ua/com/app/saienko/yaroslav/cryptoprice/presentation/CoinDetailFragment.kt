@@ -1,0 +1,73 @@
+package ua.com.app.saienko.yaroslav.cryptoprice.presentation
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
+import ua.com.app.saienko.yaroslav.cryptoprice.databinding.FragmentCoinDetailBinding
+
+
+class CoinDetailFragment : Fragment() {
+
+    private lateinit var viewModel: CoinViewModel
+
+    private var _binding: FragmentCoinDetailBinding? = null
+    private val binding: FragmentCoinDetailBinding
+        get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding == null")
+
+    private lateinit var fromSymbol: String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            fromSymbol = it.getString(FROM_SYMBOL_KEY, "")
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel =ViewModelProvider(this)[CoinViewModel::class.java]
+
+        viewModel.getDetailInfo(fromSymbol).observe(viewLifecycleOwner) {
+            with(binding) {
+                tvPrice.text = it.price
+                tvMinPrice.text = it.lowDay
+                tvMaxPrice.text = it.highDay
+                tvLastDeal.text = it.lastMarket
+                tvUpdated.text = it.lastUpdate
+                tvFromSymbol.text = it.fromSymbol
+                tvToSymbol.text = it.toSymbol
+                Picasso.get().load(it.imageUrl).into(ivLogoCoin)
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    companion object {
+
+        private const val FROM_SYMBOL_KEY = "From_Symbol"
+
+        @JvmStatic
+        fun newInstance(fromSymbol: String) =
+            CoinDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putString(FROM_SYMBOL_KEY, fromSymbol)
+                }
+            }
+    }
+}

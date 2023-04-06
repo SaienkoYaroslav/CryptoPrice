@@ -7,4 +7,6 @@
     <string name="max_for_day">Максимум за день: </string>
     <string name="last_deal">Остання угода: </string>
     <string name="updated">Оновлено: </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
