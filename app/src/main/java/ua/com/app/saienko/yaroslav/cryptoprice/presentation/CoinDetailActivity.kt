@@ -4,29 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.squareup.picasso.Picasso
+import ua.com.app.saienko.yaroslav.cryptoprice.R
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ActivityCoinDetailBinding
-import java.text.DecimalFormat
 
 class CoinDetailActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CoinViewModel
-
     private lateinit var binding: ActivityCoinDetailBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCoinDetailBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory(application)
-        )[CoinViewModel::class.java]
-
         // Якщо в інтенті немає цього ключа, тоді виходим з актівіті
         if (!intent.hasExtra(EXTRA_FROM_SYMBOL)) {
             finish()
@@ -34,18 +23,10 @@ class CoinDetailActivity : AppCompatActivity() {
         }
 
         val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
-
-        viewModel.getDetailInfo(fromSymbol).observe(this) {
-            with(binding) {
-                tvPrice.text = it.price
-                tvMinPrice.text = it.lowDay
-                tvMaxPrice.text = it.highDay
-                tvLastDeal.text = it.lastMarket
-                tvUpdated.text = it.lastUpdate
-                tvFromSymbol.text = it.fromSymbol
-                tvToSymbol.text = it.toSymbol
-                Picasso.get().load(it.imageUrl).into(ivLogoCoin)
-            }
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromSymbol))
+                .commit()
         }
     }
 

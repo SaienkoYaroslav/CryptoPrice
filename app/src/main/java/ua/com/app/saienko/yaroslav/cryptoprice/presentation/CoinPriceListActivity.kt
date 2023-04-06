@@ -4,6 +4,7 @@ package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import ua.com.app.saienko.yaroslav.cryptoprice.R
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ActivityCoinPriceListBinding
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
 import ua.com.app.saienko.yaroslav.cryptoprice.presentation.adapters.CoinInfoAdapter
@@ -22,14 +23,12 @@ class CoinPriceListActivity : AppCompatActivity() {
         val adapter = CoinInfoAdapter(this)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClick(coinPriceInfo: CoinInfo) {
-                // замість цього використаємо метод newIntent з CoinDetailActivity
-//                val intent = Intent(this@CoinPriceListActivity, CoinDetailActivity::class.java)
-//                intent.putExtra(CoinDetailActivity.EXTRA_FROM_SYMBOL, coinPriceInfo.fromSymbol)
-                val intent = CoinDetailActivity.newIntent(
-                    this@CoinPriceListActivity,
-                    coinPriceInfo.fromSymbol
-                )
-                startActivity(intent)
+                // fragmentContainer == null, значить ми в портретному ренжимі
+                if (binding.fragmentContainer == null) {
+                    launchDetailActivity(coinPriceInfo.fromSymbol)
+                } else {
+                    launchDetailFragment(coinPriceInfo.fromSymbol)
+                }
             }
 
         }
@@ -45,4 +44,24 @@ class CoinPriceListActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun launchDetailActivity(fromSymbol: String) {
+        // замість цього використаємо метод newIntent з CoinDetailActivity
+//                val intent = Intent(this@CoinPriceListActivity, CoinDetailActivity::class.java)
+//                intent.putExtra(CoinDetailActivity.EXTRA_FROM_SYMBOL, coinPriceInfo.fromSymbol)
+        val intent = CoinDetailActivity.newIntent(
+            this@CoinPriceListActivity,
+            fromSymbol
+        )
+        startActivity(intent)
+    }
+
+    private fun launchDetailFragment(fromSymbol: String) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromSymbol))
+            .addToBackStack(null)
+            .commit()
+    }
+
 }
