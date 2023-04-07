@@ -2,8 +2,6 @@ package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import ua.com.app.saienko.yaroslav.cryptoprice.data.repository.CoinRepositoryImpl
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.GetCoinInfoListUseCase
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.GetCoinInfoUseCase
@@ -25,9 +23,8 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     fun getDetailInfo(fSym: String) = getCoinInfoUseCase(fSym)
 
     init {
-        viewModelScope.launch {
-            loadDateUseCase()
-        }
+        loadDateUseCase()
     }
+
 }
 

@@ -33,8 +33,6 @@ class CoinPriceListActivity : AppCompatActivity() {
 
         }
         binding.rvCoinPriceList.adapter = adapter
-        // відключення анімації в ресайклВью
-        binding.rvCoinPriceList.itemAnimator = null
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory(application)

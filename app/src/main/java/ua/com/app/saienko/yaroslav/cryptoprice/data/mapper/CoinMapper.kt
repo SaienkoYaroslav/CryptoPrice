@@ -8,6 +8,7 @@ import ua.com.app.saienko.yaroslav.cryptoprice.data.network.model.CoinNamesListD
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
 import java.sql.Date
 import java.sql.Timestamp
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -52,16 +53,18 @@ class CoinMapper {
         return string ?: ""
     }
 
-    fun mapDbModelToEntity(dbModel: CoinInfoDbModel) = CoinInfo(
-        fromSymbol = dbModel.fromSymbol,
-        toSymbol = dbModel.toSymbol,
-        price = dbModel.price,
-        lastUpdate = convertTimestampToTime(dbModel.lastUpdate),
-        highDay = dbModel.highDay,
-        lowDay = dbModel.lowDay,
-        lastMarket = dbModel.lastMarket,
-        imageUrl = dbModel.imageUrl
-    )
+    fun mapDbModelToEntity(dbModel: CoinInfoDbModel): CoinInfo {
+        return CoinInfo(
+            fromSymbol = dbModel.fromSymbol,
+            toSymbol = dbModel.toSymbol,
+            price = formatFloatToString(dbModel.price),
+            lastUpdate = convertTimestampToTime(dbModel.lastUpdate),
+            highDay = dbModel.highDay,
+            lowDay = dbModel.lowDay,
+            lastMarket = dbModel.lastMarket,
+            imageUrl = dbModel.imageUrl
+        )
+    }
 
     private fun convertTimestampToTime(timestamp: Long?): String {
         if (timestamp == null) return ""
@@ -75,6 +78,15 @@ class CoinMapper {
         // час в нашій зоні
         sdf.timeZone = TimeZone.getDefault()
         return sdf.format(date)
+    }
+
+    private fun formatFloatToString(price: Float?): String {
+        val formattedFloat = DecimalFormat("#0.00000000")
+        return if (price?.compareTo(0.001) == -1) {
+            formattedFloat.format(price)
+        } else {
+            price.toString()
+        }
     }
 
     companion object {

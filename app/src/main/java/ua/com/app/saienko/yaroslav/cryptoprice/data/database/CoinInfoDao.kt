@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface CoinInfoDao {
     // Запрос для метода нижче
-    @Query("SELECT * FROM full_price_list ORDER BY lastUpdate DESC")
+    @Query("SELECT * FROM full_price_list ORDER BY price DESC")
     // метод для відображення списку валют в RecycleView
     fun getPriceList(): LiveData<List<CoinInfoDbModel>>
 

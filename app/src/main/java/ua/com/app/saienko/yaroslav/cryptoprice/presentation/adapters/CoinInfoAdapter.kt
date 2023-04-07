@@ -8,6 +8,7 @@ import com.squareup.picasso.Picasso
 import ua.com.app.saienko.yaroslav.cryptoprice.R
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ItemCoinInfoBinding
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
+import java.text.DecimalFormat
 
 class CoinInfoAdapter(private val context: Context) :
     ListAdapter<CoinInfo, CoinInfoViewHolder>(CoinInfoDiffCallback()) {

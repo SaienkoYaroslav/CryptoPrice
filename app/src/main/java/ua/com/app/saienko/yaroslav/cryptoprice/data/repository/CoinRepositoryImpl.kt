@@ -3,10 +3,11 @@ package ua.com.app.saienko.yaroslav.cryptoprice.data.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import kotlinx.coroutines.delay
+import androidx.work.ExistingWorkPolicy
+import androidx.work.WorkManager
 import ua.com.app.saienko.yaroslav.cryptoprice.data.database.AppDatabase
 import ua.com.app.saienko.yaroslav.cryptoprice.data.mapper.CoinMapper
-import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory
+import ua.com.app.saienko.yaroslav.cryptoprice.data.workers.RefreshDataWorker
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinRepository
 
@@ -15,7 +16,6 @@ class CoinRepositoryImpl(
 ): CoinRepository {
 
     private val coinInfoDao = AppDatabase.getInstance(application).coinPriceInfoDao()
-    private val apiService = ApiFactory.apiService
 
     private val mapper = CoinMapper()
 
@@ -33,18 +33,12 @@ class CoinRepositoryImpl(
         }
     }
 
-    override suspend fun loadDate() {
-        while (true) {
-            try {
-                val topCoins = apiService.getTopCoinsInfo(limit = 50)
-                val fSymbols = mapper.mapNamesListDtoToString(topCoins)
-                val jsonContainer = apiService.getFullPriceList(fSyms = fSymbols)
-                val coinInfoDtoList = mapper.mapJsonContainerDtoToListCoinInfo(jsonContainer)
-                val dbModelList = coinInfoDtoList.map { mapper.mapDtoToDbModel(it) }
-                coinInfoDao.insertPriceList(dbModelList)
-            } catch (e: Exception) {
-            }
-            delay(10000)
-        }
+    override fun loadDate() {
+        val workManager = WorkManager.getInstance(application)
+        workManager.enqueueUniqueWork(
+            RefreshDataWorker.WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            RefreshDataWorker.makeRequest()
+            )
     }
 }
