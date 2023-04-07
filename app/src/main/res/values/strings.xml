@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Crypto prices</string>
     <string name="symbols_template">%s / %s</string>
-    <string name="last_update_template">Час останнього оновлення: %s</string>
-    <string name="price">Ціна: </string>
-    <string name="min_for_day">Мінімум за день: </string>
-    <string name="max_for_day">Максимум за день: </string>
-    <string name="last_deal">Остання угода: </string>
-    <string name="updated">Оновлено: </string>
+    <string name="last_update_template">Last update time: %s</string>
+    <string name="price">"Price: "</string>
+    <string name="min_for_day">"Min for a day: "</string>
+    <string name="max_for_day">"Max for a day: "</string>
+    <string name="last_deal">"Last deal: "</string>
+    <string name="updated">"Updated: "</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>
