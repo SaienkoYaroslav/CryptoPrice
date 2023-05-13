@@ -1,8 +1,10 @@
 package ua.com.app.saienko.yaroslav.cryptoprice.domain
 
-import androidx.lifecycle.LiveData
+import javax.inject.Inject
 
-class GetCoinInfoListUseCase(private val coinRepository: CoinRepository) {
+class GetCoinInfoListUseCase @Inject constructor(
+    private val coinRepository: CoinRepository
+) {
 
     operator fun invoke() = coinRepository.getCoinInfoList()
 

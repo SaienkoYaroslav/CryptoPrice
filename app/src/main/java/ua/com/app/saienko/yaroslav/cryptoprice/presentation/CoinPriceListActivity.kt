@@ -4,18 +4,30 @@ package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import ua.com.app.saienko.yaroslav.cryptoprice.CryptoApp
 import ua.com.app.saienko.yaroslav.cryptoprice.R
 import ua.com.app.saienko.yaroslav.cryptoprice.databinding.ActivityCoinPriceListBinding
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinInfo
 import ua.com.app.saienko.yaroslav.cryptoprice.presentation.adapters.CoinInfoAdapter
+import javax.inject.Inject
 
 class CoinPriceListActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CoinViewModel
+    @Inject
+    lateinit var viewModelFactory:CoinViewModelFactory
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory) [CoinViewModel::class.java]
+    }
 
     private lateinit var binding: ActivityCoinPriceListBinding
 
+    private val component by lazy {
+        (application as CryptoApp).component
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityCoinPriceListBinding.inflate(layoutInflater)
         val view = binding.root
@@ -33,10 +45,6 @@ class CoinPriceListActivity : AppCompatActivity() {
 
         }
         binding.rvCoinPriceList.adapter = adapter
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory(application)
-        )[CoinViewModel::class.java]
         viewModel.coinInfoList.observe(this) {
             adapter.submitList(it)
         }

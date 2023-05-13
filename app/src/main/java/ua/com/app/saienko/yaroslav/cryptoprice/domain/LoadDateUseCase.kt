@@ -1,6 +1,8 @@
 package ua.com.app.saienko.yaroslav.cryptoprice.domain
 
-class LoadDateUseCase(
+import javax.inject.Inject
+
+class LoadDateUseCase @Inject constructor(
     private val repository: CoinRepository
     ) {
 

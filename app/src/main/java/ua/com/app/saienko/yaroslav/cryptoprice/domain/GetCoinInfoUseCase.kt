@@ -1,6 +1,8 @@
 package ua.com.app.saienko.yaroslav.cryptoprice.domain
 
-class GetCoinInfoUseCase(
+import javax.inject.Inject
+
+class GetCoinInfoUseCase @Inject constructor(
     private val coinRepository: CoinRepository
 ) {
 

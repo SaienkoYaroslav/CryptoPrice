@@ -1,20 +1,18 @@
 package ua.com.app.saienko.yaroslav.cryptoprice.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import ua.com.app.saienko.yaroslav.cryptoprice.data.repository.CoinRepositoryImpl
+import androidx.lifecycle.ViewModel
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.GetCoinInfoListUseCase
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.GetCoinInfoUseCase
 import ua.com.app.saienko.yaroslav.cryptoprice.domain.LoadDateUseCase
+import javax.inject.Inject
 
 // AndroidViewModel параметром потрібно передати Application
-class CoinViewModel(application: Application) : AndroidViewModel(application) {
+class CoinViewModel @Inject constructor(
+    private val getCoinInfoListUseCase: GetCoinInfoListUseCase,
+    private val getCoinInfoUseCase: GetCoinInfoUseCase,
+    private val loadDateUseCase: LoadDateUseCase
+) : ViewModel() {
 
-    private val repository = CoinRepositoryImpl(application)
-
-    private val getCoinInfoListUseCase = GetCoinInfoListUseCase(repository)
-    private val getCoinInfoUseCase = GetCoinInfoUseCase(repository)
-    private val loadDateUseCase = LoadDateUseCase(repository)
 
     // Об'єкт LiveData на який будемо підписуватись
     val coinInfoList = getCoinInfoListUseCase()
