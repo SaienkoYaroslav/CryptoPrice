@@ -1,19 +1,24 @@
 package ua.com.app.saienko.yaroslav.cryptoprice.data.workers
 
 import android.content.Context
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkerParameters
 import kotlinx.coroutines.delay
-import ua.com.app.saienko.yaroslav.cryptoprice.data.database.AppDatabase
+import ua.com.app.saienko.yaroslav.cryptoprice.data.database.CoinInfoDao
 import ua.com.app.saienko.yaroslav.cryptoprice.data.mapper.CoinMapper
-import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiFactory
+import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiService
 
-class RefreshDataWorker(context: Context, workerParams: WorkerParameters) :
+class RefreshDataWorker(
+    context: Context,
+    workerParams: WorkerParameters,
+    private val coinInfoDao: CoinInfoDao,
+    private val apiService: ApiService,
+    private val mapper: CoinMapper
+) :
     CoroutineWorker(context, workerParams) {
 
-    private val coinInfoDao = AppDatabase.getInstance(context).coinPriceInfoDao()
-    private val apiService = ApiFactory.apiService
-
-    private val mapper = CoinMapper()
 
     override suspend fun doWork(): Result {
         while (true) {
@@ -34,7 +39,7 @@ class RefreshDataWorker(context: Context, workerParams: WorkerParameters) :
 
         const val WORK_NAME = "worker"
 
-        fun makeRequest() : OneTimeWorkRequest {
+        fun makeRequest(): OneTimeWorkRequest {
             return OneTimeWorkRequestBuilder<RefreshDataWorker>()
                 .build()
         }
