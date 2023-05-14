@@ -2,6 +2,7 @@ package ua.com.app.saienko.yaroslav.cryptoprice.data.workers
 
 import android.content.Context
 import androidx.work.CoroutineWorker
+import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
@@ -9,6 +10,7 @@ import kotlinx.coroutines.delay
 import ua.com.app.saienko.yaroslav.cryptoprice.data.database.CoinInfoDao
 import ua.com.app.saienko.yaroslav.cryptoprice.data.mapper.CoinMapper
 import ua.com.app.saienko.yaroslav.cryptoprice.data.network.ApiService
+import javax.inject.Inject
 
 class RefreshDataWorker(
     context: Context,
@@ -44,6 +46,22 @@ class RefreshDataWorker(
                 .build()
         }
 
+    }
+
+    class Factory @Inject constructor(
+        private val coinInfoDao: CoinInfoDao,
+        private val apiService: ApiService,
+        private val mapper: CoinMapper
+    ) : ChildWorkerFactory {
+        override fun create(context: Context, workerParams: WorkerParameters): ListenableWorker {
+            return RefreshDataWorker(
+                context,
+                workerParams,
+                coinInfoDao,
+                apiService,
+                mapper
+            )
+        }
     }
 
 

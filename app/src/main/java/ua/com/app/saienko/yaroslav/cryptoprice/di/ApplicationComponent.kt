@@ -8,7 +8,7 @@ import ua.com.app.saienko.yaroslav.cryptoprice.presentation.CoinDetailFragment
 import ua.com.app.saienko.yaroslav.cryptoprice.presentation.CoinPriceListActivity
 
 @ApplicationScope
-@Component(modules = [DomainModule::class, DataModule::class, ViewModelModule::class])
+@Component(modules = [DomainModule::class, DataModule::class, ViewModelModule::class, WorkerModule::class])
 interface ApplicationComponent {
 
     fun inject(activity: CoinPriceListActivity)
