@@ -8,6 +8,7 @@ import ua.com.app.saienko.yaroslav.cryptoprice.domain.CoinRepository
 @Module
 interface DomainModule {
 
+    @ApplicationScope
     @Binds
     fun bindRepository(impl: CoinRepositoryImpl) : CoinRepository
 
